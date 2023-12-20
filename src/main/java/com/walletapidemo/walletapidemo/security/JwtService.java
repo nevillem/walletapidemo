@@ -63,6 +63,7 @@ public class JwtService {
 
     private Claims extractAllClaims(String token){
         //to ensure the person sending this toekn is the same person it claims to be
+        
     return Jwts.parserBuilder().setSigningKey(getSignInKey()).build().parseClaimsJws(token).getBody();
     }
 
