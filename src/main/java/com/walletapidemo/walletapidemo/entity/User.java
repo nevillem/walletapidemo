@@ -35,7 +35,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements UserDetails{
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Integer id;
 
   @Column(name = "user_firstname", length = 250)
   private String firstname;
@@ -52,9 +52,8 @@ public class User implements UserDetails{
   @Enumerated(EnumType.STRING)
   private Role role;
 
-
-  // @OneToMany(mappedBy = "user")
-  // private List<Token> tokens;
+  @OneToMany(mappedBy = "user")
+  private List<Token> tokens;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
