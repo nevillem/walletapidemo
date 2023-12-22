@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.walletapidemo.walletapidemo.controller.services.AuthenticationService;
+import com.walletapidemo.walletapidemo.reponse.AuthenticationResponse;
+import com.walletapidemo.walletapidemo.requests.AuthenticationRequest;
+import com.walletapidemo.walletapidemo.requests.RegisterRequest;
+
 import java.io.IOException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
