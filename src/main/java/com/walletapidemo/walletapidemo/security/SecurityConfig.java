@@ -25,9 +25,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        // http.
-        // csrf()
-        // .dis
+
                 http.cors(cors -> cors.disable()).csrf(csrf -> csrf.disable())
                 // .exceptionHandling(exception -> exception.authenticationEntryPoint(null))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -35,17 +33,6 @@ public class SecurityConfig {
                         authorizeRequests.requestMatchers("/api/v1/auth/**", "/h2-ui/**").permitAll()
                                 .anyRequest()
                                 .authenticated()).httpBasic(withDefaults());
-        // http.cors(cors->cors.disable());
-        // http.csrf(csrf -> csrf.disable())
-        // // .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-        // .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        // .authorizeHttpRequests(auth -> 
-        //   auth.requestMatchers("/api/v1/auth/authenticate","/api/v1/auth/signup", "/h2-ui/**").permitAll()
-        //     //   .requestMatchers("/api/test/**").permitAll()
-        //       .anyRequest().authenticated()
-        // );
-        // http.csrf(csrf -> csrf.ignoringRequestMatchers("/h2-ui/**"));
-
 
     http.headers(headers -> headers.frameOptions(frameOption -> frameOption.sameOrigin()));
     
