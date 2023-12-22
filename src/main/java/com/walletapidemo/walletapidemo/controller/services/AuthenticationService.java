@@ -1,4 +1,4 @@
-package com.walletapidemo.walletapidemo.controller;
+package com.walletapidemo.walletapidemo.controller.services;
 
 import com.walletapidemo.walletapidemo.security.JwtService;
 import com.walletapidemo.walletapidemo.token.TokenType;
@@ -7,8 +7,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import com.walletapidemo.walletapidemo.entity.User;
+import com.walletapidemo.walletapidemo.reponse.AuthenticationResponse;
 import com.walletapidemo.walletapidemo.repository.TokenRepository;
 import com.walletapidemo.walletapidemo.repository.UserRepository;
+import com.walletapidemo.walletapidemo.requests.AuthenticationRequest;
+import com.walletapidemo.walletapidemo.requests.RegisterRequest;
 import com.walletapidemo.walletapidemo.entity.Token;
 
 import lombok.RequiredArgsConstructor;

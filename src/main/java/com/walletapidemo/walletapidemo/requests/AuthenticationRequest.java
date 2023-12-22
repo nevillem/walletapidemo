@@ -1,4 +1,4 @@
-package com.walletapidemo.walletapidemo.controller;
+package com.walletapidemo.walletapidemo.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.walletapidemo.walletapidemo.controller;
+package com.walletapidemo.walletapidemo.reponse;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
