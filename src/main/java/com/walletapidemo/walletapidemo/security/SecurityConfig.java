@@ -29,14 +29,12 @@ public class SecurityConfig {
         // csrf()
         // .dis
                 http.cors(cors -> cors.disable()).csrf(csrf -> csrf.disable())
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(null))
+                // .exceptionHandling(exception -> exception.authenticationEntryPoint(null))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests.requestMatchers("/api/v1/auth/**", "/h2-ui/**").permitAll()
                                 .anyRequest()
                                 .authenticated()).httpBasic(withDefaults());
-        
-
         // http.cors(cors->cors.disable());
         // http.csrf(csrf -> csrf.disable())
         // // .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
