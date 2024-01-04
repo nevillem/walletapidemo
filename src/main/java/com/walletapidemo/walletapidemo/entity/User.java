@@ -1,6 +1,11 @@
 package com.walletapidemo.walletapidemo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -26,9 +31,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Getter
 @ToString
 
-@Table(name="users_tbl",
+@Table(name="customers_tbl",
        uniqueConstraints = {
-           @UniqueConstraint(columnNames = "username"),
            @UniqueConstraint(columnNames = "email")
        })
 
@@ -37,17 +41,31 @@ public class User implements UserDetails{
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Column(name = "user_firstname", length = 250)
+  @Column(nullable=false,name = "user_firstname", length = 100)
+  @NotBlank(message = "firstname cannot be blank")
+  @NotEmpty
   private String firstname;
 
-  @Column(name = "user_lastname", length = 250)
+  @Column(nullable=false,name = "user_lastname", length = 100)
+  @NotBlank(message = "lastname cannot be blank")
+  @NotEmpty
   private String lastname;
 
-  @Column(name = "user_email", length = 250)
+  @Column(nullable=false, name = "user_customernumber", length=10)
+  @NotBlank(message = "customer id cannot be blank")
+  @NotEmpty
+  @Size(min = 10, max = 10, message = "customer id must be 10 characters")
+  private String customernumber;
+  
+  @Column(nullable = false, name = "user_email", length = 250)
+  @NotBlank(message = "email cannot be blank")
+  @NotEmpty
+  @Email
   private String email;
 
-  @Column(name = "user_password", length = 250)
-  private String password;
+  @Column(name = "user_pin", length = 300)
+  @NotEmpty
+  private String pin;
 
   @Enumerated(EnumType.STRING)
   private Role role;
@@ -62,12 +80,12 @@ public class User implements UserDetails{
  
 @Override
 public String getPassword(){
-  return password;
+  return pin;
 }
 
 @Override
 public String getUsername() {
-return email;
+return customernumber;
 }
 
 @Override

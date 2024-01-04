@@ -24,7 +24,7 @@ public class ApplicationConfig {
 @Bean
 public UserDetailsService userDetailsService(){
             // this represents a lambda
-         return username-> repository.findByEmail(username)    
+         return username-> repository.findByCustomernumber(username)    
          .orElseThrow(()-> new UsernameNotFoundException("user not found")); 
 }
 

@@ -11,6 +11,7 @@ import com.walletapidemo.walletapidemo.reponse.AuthenticationResponse;
 import com.walletapidemo.walletapidemo.repository.TokenRepository;
 import com.walletapidemo.walletapidemo.repository.UserRepository;
 import com.walletapidemo.walletapidemo.requests.AuthenticationRequest;
+import com.walletapidemo.walletapidemo.requests.EmailDetails;
 import com.walletapidemo.walletapidemo.requests.RegisterRequest;
 import com.walletapidemo.walletapidemo.entity.Token;
 
@@ -38,6 +39,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder; 
     private final JwtService jwtService;
     // private RefreshTokenService refreshTokenService;
+   private final EmailService emailService;
 
     private final AuthenticationManager authenticationManager;
     //this create user and return the created token
@@ -45,34 +47,46 @@ public class AuthenticationService {
         return repository.existsByEmail(email);
      }
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) throws Exception {
+      var password =  request.getRandomNumberString();
+
         var user=User.builder()
         .firstname(request.getFirstname())
         .lastname(request.getLastname())
         .email(request.getEmail())
-        .password(passwordEncoder.encode(request.getPassword()))
+        .customernumber(request.getCustomerid())
+        .pin(passwordEncoder.encode(password))
         .role(Role.ROLE_USER)
         .build();
-        repository.save(user);
+        System.out.println(password);
+
+        emailService.sendEmail(EmailDetails.builder().msgBody("<html><body>Please use these credentials to login!<br> Username:"+request.getCustomerid()+" <br>Pin: "+password)
+        .recipient(request.getEmail())
+        .subject("Customer ID and  PIN ")
+        .build());
+        var savedUser = repository.save(user);
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
-
-        return  AuthenticationResponse.builder()
+        saveUserToken(savedUser, jwtToken);
+        return AuthenticationResponse.builder()
         .accessToken(jwtToken)
             .refreshToken(refreshToken)
         .build();
     }
     
+
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                request.getEmail(),
-                request.getPassword()
-            )
-        );
-        var user =repository.findByEmail(request.getEmail()).orElseThrow();
-      Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        if (authentication.isAuthenticated()) {
+      authenticationManager.authenticate(
+          new UsernamePasswordAuthenticationToken(
+              request.getCustomerid(),
+              request.getPin()
+          )
+      );
+      Authentication authentication = authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(request.getCustomerid(), request.getPin()));   
+      if (authentication.isAuthenticated()) {
+      var user = repository.findByCustomernumber(request.getCustomerid())
+          .orElseThrow();              
             var jwtToken= jwtService.generateToken(user);
             var refreshToken = jwtService.generateRefreshToken(user);
             revokeAllUserTokens(user);
@@ -81,12 +95,9 @@ public class AuthenticationService {
                     .refreshToken(refreshToken).build();
         } else {
             throw new UsernameNotFoundException("invalid user request !");
-        }
-
-        // return AuthenticationResponse.builder()
-        // .token(jwtToken.)
-        // .build();
+        }       
     }
+
 
     private void revokeAllUserTokens(User user) {
         var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
@@ -124,7 +135,7 @@ public class AuthenticationService {
     refreshToken = authHeader.substring(7);
     userEmail = jwtService.extractUsername(refreshToken);
     if (userEmail != null) {
-      var user = this.repository.findByEmail(userEmail)
+      var user = this.repository.findByCustomernumber(userEmail)
               .orElseThrow();
       if (jwtService.isTokenValid(refreshToken, user)) {
         var accessToken = jwtService.generateToken(user);

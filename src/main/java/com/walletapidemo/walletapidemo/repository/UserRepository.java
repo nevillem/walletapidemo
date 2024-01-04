@@ -6,10 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import com.walletapidemo.walletapidemo.entity.User;
 
-@Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-  Optional<User> findByEmail(String email);
 
-  Boolean existsByEmail(String email);    
+
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Integer> {
+  Optional<User> findByCustomernumber(String customernumber);
+  Boolean existsByEmail(String email);  
+  Boolean existsByCustomernumber(String customernumber) ;
 
 }

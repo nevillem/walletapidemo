@@ -27,7 +27,7 @@ public class AuthenticationController {
     
     @PostMapping("/signup")
     public ResponseEntity<?> register(
-        @RequestBody RegisterRequest request){
+        @RequestBody RegisterRequest request) throws Exception{
          if(service.exist(request.getEmail())==true){
           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
@@ -36,11 +36,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.register(request));
     }
 
-     @PostMapping("/authenticate")
+    @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
-        @RequestBody AuthenticationRequest request){
-         return ResponseEntity.ok(service.authenticate(request));
-
+        @RequestBody AuthenticationRequest request
+    ) {
+      return ResponseEntity.ok(service.authenticate(request));
     }
 
   @PostMapping("/refresh-token")
