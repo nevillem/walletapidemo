@@ -1,6 +1,10 @@
 package com.walletapidemo.walletapidemo.entity;
 
-import com.walletapidemo.walletapidemo.enumess.TokenType;
+import java.util.Date;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.walletapidemo.walletapidemo.enumess.Statuses;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,30 +20,27 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Token {
-
+public class MemberAccounts {
   @Id
   @GeneratedValue
-  public Integer id;
+  private Integer id;
 
-  @Column(unique = true)
-  public String token;
-
+  private Long accountbalance;
+  
   @Enumerated(EnumType.STRING)
   @Builder.Default
-  public TokenType tokenType = TokenType.BEARER;
-
-  public boolean revoked;
-
-  public boolean expired;
+  private Statuses statuses=Statuses.ACTIVE;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
   public User user;
+
+  @CreationTimestamp
+  @Column(name="created_at")
+  private Date createdAt;
 }

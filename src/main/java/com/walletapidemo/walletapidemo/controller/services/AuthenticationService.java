@@ -1,12 +1,12 @@
 package com.walletapidemo.walletapidemo.controller.services;
 
 import com.walletapidemo.walletapidemo.security.JwtService;
-import com.walletapidemo.walletapidemo.token.TokenType;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import com.walletapidemo.walletapidemo.entity.User;
+import com.walletapidemo.walletapidemo.enumess.TokenType;
 import com.walletapidemo.walletapidemo.reponse.AuthenticationResponse;
 import com.walletapidemo.walletapidemo.repository.TokenRepository;
 import com.walletapidemo.walletapidemo.repository.UserRepository;
@@ -88,6 +88,7 @@ public class AuthenticationService {
       var user = repository.findByCustomernumber(request.getCustomerid())
           .orElseThrow();              
             var jwtToken= jwtService.generateToken(user);
+            System.out.println(jwtToken);
             var refreshToken = jwtService.generateRefreshToken(user);
             revokeAllUserTokens(user);
             saveUserToken(user, jwtToken);
