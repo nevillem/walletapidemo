@@ -30,7 +30,7 @@ public class MemberAccounts {
   @GeneratedValue
   private Integer id;
 
-  private Long accountbalance;
+  private Integer accountbalance;
   
   @Enumerated(EnumType.STRING)
   @Builder.Default

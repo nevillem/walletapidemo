@@ -6,8 +6,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import com.walletapidemo.walletapidemo.entity.User;
+import com.walletapidemo.walletapidemo.enumess.Statuses;
 import com.walletapidemo.walletapidemo.enumess.TokenType;
 import com.walletapidemo.walletapidemo.reponse.AuthenticationResponse;
+import com.walletapidemo.walletapidemo.repository.MemberAccountsRepository;
 import com.walletapidemo.walletapidemo.repository.TokenRepository;
 import com.walletapidemo.walletapidemo.repository.UserRepository;
 import com.walletapidemo.walletapidemo.requests.AuthenticationRequest;
@@ -28,6 +30,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.walletapidemo.walletapidemo.entity.MemberAccounts;
 import com.walletapidemo.walletapidemo.entity.Role;
 
 @Service
@@ -36,6 +39,7 @@ public class AuthenticationService {
     // place or class that will implement register and authenticate
     private final UserRepository repository;
     private final TokenRepository tokenRepository;
+    private final MemberAccountsRepository memberAccountsRepository;
     private final PasswordEncoder passwordEncoder; 
     private final JwtService jwtService;
     // private RefreshTokenService refreshTokenService;
@@ -68,6 +72,7 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);
         saveUserToken(savedUser, jwtToken);
+        memberAccount(savedUser);
         return AuthenticationResponse.builder()
         .accessToken(jwtToken)
             .refreshToken(refreshToken)
@@ -122,6 +127,14 @@ public class AuthenticationService {
     tokenRepository.save(token);
    }
 
+    private void memberAccount(User user) {
+    var memberAccount = MemberAccounts.builder()
+        .user(user)
+        .accountbalance(0)
+        .statuses(Statuses.ACTIVE)
+        .build();
+    memberAccountsRepository.save(memberAccount);
+   }
    
   public void refreshToken(
           HttpServletRequest request,
