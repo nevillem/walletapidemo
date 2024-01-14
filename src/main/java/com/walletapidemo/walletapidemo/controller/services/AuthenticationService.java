@@ -30,7 +30,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.walletapidemo.walletapidemo.entity.MemberAccounts;
+import com.walletapidemo.walletapidemo.entity.MemberAccount;
 import com.walletapidemo.walletapidemo.entity.Role;
 
 @Service
@@ -91,9 +91,8 @@ public class AuthenticationService {
         new UsernamePasswordAuthenticationToken(request.getCustomerid(), request.getPin()));   
       if (authentication.isAuthenticated()) {
       var user = repository.findByCustomernumber(request.getCustomerid())
-          .orElseThrow();              
+          .orElseThrow();
             var jwtToken= jwtService.generateToken(user);
-            System.out.println(jwtToken);
             var refreshToken = jwtService.generateRefreshToken(user);
             revokeAllUserTokens(user);
             saveUserToken(user, jwtToken);
@@ -128,7 +127,7 @@ public class AuthenticationService {
    }
 
     private void memberAccount(User user) {
-    var memberAccount = MemberAccounts.builder()
+    var memberAccount = MemberAccount.builder()
         .user(user)
         .accountbalance(0)
         .statuses(Statuses.ACTIVE)

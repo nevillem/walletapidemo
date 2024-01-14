@@ -4,14 +4,11 @@ import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.walletapidemo.walletapidemo.enumess.Statuses;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -25,22 +22,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MemberAccounts {
+public class Deposits {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-
-  private Integer accountbalance;
-  
-  @Enumerated(EnumType.STRING)
-  @Builder.Default
-  private Statuses statuses=Statuses.ACTIVE;
-
+  private Integer deposit_amount;
+  private long desposit_reference;
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")
-  public User user;
-
+  @JoinColumn(name = "memberaccount_id")
+  public MemberAccount memberAccount;
   @CreationTimestamp
   @Column(name="created_at")
   private Date createdAt;
+
 }
