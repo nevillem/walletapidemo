@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.walletapidemo.walletapidemo.entity.MemberAccount;
-import com.walletapidemo.walletapidemo.entity.User;
-
 import jakarta.transaction.Transactional;
 
 public interface MemberAccountsRepository extends JpaRepository<MemberAccount, Integer>{
