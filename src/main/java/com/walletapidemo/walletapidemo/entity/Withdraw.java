@@ -22,17 +22,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Deposits {
+public class Withdraw {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
-  private Integer deposit_amount;
-  private long desposit_reference;
+  private Integer withdrew_amount;
+  private long withdraw_reference;
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "memberaccount_id")
   public MemberAccount memberAccount;
   @CreationTimestamp
-  @Column(name="deposited_at")
+  @Column(name="withdrew_at")
   private Date createdAt;
 
 }

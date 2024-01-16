@@ -30,6 +30,7 @@ public class MemberAccount {
   @GeneratedValue
   private Integer id;
 
+  @Column(name="accountbalance")
   private Integer accountbalance;
   
   @Enumerated(EnumType.STRING)

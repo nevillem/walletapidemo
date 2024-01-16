@@ -1,16 +1,20 @@
 package com.walletapidemo.walletapidemo.reponse;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberAccountResponse {
-Integer accountBalace;
-
-
+public class WithdrawResponse {
+  @JsonProperty("withdrewamount")
+  private Integer amount;
+  @JsonProperty("balance")
+  private Integer balance;
 }

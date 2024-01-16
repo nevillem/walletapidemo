@@ -29,17 +29,5 @@ public class AccountsCountroller {
         return ResponseEntity.ok(service.getCustomerBalance(user.getId()));
 
     }
-//     public ResponseEntity<?> getAccounts(){
-//         Authentication authenticationToken = SecurityContextHolder.getContext().getAuthentication();
-//         System.out.println("hey"+(User) authenticationToken.getPrincipal());
-//         return new ResponseEntity<>(null);
-//         // @Query("")
-//     //     Optional<User> accountt= repository.findById(id);     
-//     //     if (accountt.isPresent()) {
-//     //     return new ResponseEntity<User>(accountt.get(), HttpStatus.OK);
-//     //     }
-//     //    return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-
-// }
 
 }

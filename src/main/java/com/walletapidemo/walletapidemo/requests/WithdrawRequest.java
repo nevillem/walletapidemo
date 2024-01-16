@@ -11,10 +11,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DepositRequest {
+public class WithdrawRequest{
     private Integer amount;
     private String accountId;     
-
 
     public Long getReferenceCode() {
     long min = 1000000000000L; //13 digits inclusive
