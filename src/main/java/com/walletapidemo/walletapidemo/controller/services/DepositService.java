@@ -24,15 +24,10 @@ public class DepositService {
  private final MemberAccountsRepository accountsRepo;
  private final DepositRepository repDepositRepository;
  private final WithdrawRepository withdrawRepository;
- private final UserRepository repository;
 
     //deposit transaction
-    public DepositResponse customerDeposit(DepositRequest request) {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String username = authentication.getName();
-    var user = repository.findByCustomernumber(username)
-        .orElseThrow();       
-    var memberaccount= accountsRepo.findByValidUser(user.getId()).orElseThrow();
+    public DepositResponse customerDeposit(DepositRequest request, MemberAccount memberaccount) {
+
     accountsRepo.deposit(memberaccount.getId(), request.getAmount());
     System.out.println("id:"+memberaccount.getId());
     var referenceCode =  request.getReferenceCode();
@@ -49,15 +44,7 @@ public class DepositService {
         .build();
     repDepositRepository.save(deposit);
    }
-    public WithdrawResponse customerWithdraw(WithdrawRequest request) {
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    String username = authentication.getName();
-    var user = repository.findByCustomernumber(username)
-        .orElseThrow();       
-    var memberaccount= accountsRepo.findByValidUser(user.getId()).orElseThrow();
-    if (memberaccount.getAccountbalance() <=0) {
-        
-    }
+    public WithdrawResponse customerWithdraw(WithdrawRequest request, MemberAccount memberaccount) {
 
     accountsRepo.withdraw(memberaccount.getId(), request.getAmount());
     var referenceCode =  request.getReferenceCode();
