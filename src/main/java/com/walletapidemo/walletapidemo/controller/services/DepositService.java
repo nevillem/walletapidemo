@@ -1,7 +1,5 @@
 package com.walletapidemo.walletapidemo.controller.services;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.walletapidemo.walletapidemo.entity.Deposits;
@@ -11,7 +9,6 @@ import com.walletapidemo.walletapidemo.reponse.DepositResponse;
 import com.walletapidemo.walletapidemo.reponse.WithdrawResponse;
 import com.walletapidemo.walletapidemo.repository.DepositRepository;
 import com.walletapidemo.walletapidemo.repository.MemberAccountsRepository;
-import com.walletapidemo.walletapidemo.repository.UserRepository;
 import com.walletapidemo.walletapidemo.repository.WithdrawRepository;
 import com.walletapidemo.walletapidemo.requests.DepositRequest;
 import com.walletapidemo.walletapidemo.requests.WithdrawRequest;
